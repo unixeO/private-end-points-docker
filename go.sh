@@ -434,7 +434,7 @@ esac
 
 load_iptables () {
     if [ ! -f /etc/iptables.save ]; then
-       ./template.py \
+       $BASE_DIR/template.py \
        -d "/etc/encryptme/data/server.json" \
        -s iptables.rules.j2 \
        -o /etc/iptables.save
