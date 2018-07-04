@@ -436,7 +436,7 @@ load_iptables () {
     if [ ! -f /etc/iptables.save ]; then
        $BASE_DIR/template.py \
        -d "/etc/encryptme/data/server.json" \
-       -s iptables.rules.j2 \
+       -s $BASE_DIR/iptables.rules.j2 \
        -o /etc/iptables.save
     fi
 
