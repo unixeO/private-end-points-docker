@@ -400,6 +400,8 @@ rem "Configuring and starting strongSwan"
     encryptme-stats --server "$ENCRYPTME_STATS_SERVER" $ENCRYPTME_STATS_ARGS &
 }
 
+touch /tmp/foobar
+
 rem "Start-up complete"
 
 while true; do
