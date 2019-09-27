@@ -12,4 +12,5 @@ certbot_pid=$(ps auxww | grep 'certbot renew' | grep -v grep | awk '{print $2}')
 retval=$?
 /sbin/iptables -D INPUT -p tcp --dport http -j ACCEPT
 
+
 exit $retval
