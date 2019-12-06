@@ -4,9 +4,7 @@ port {{cloak_server.port}}
 cipher {{cloak_server.cipher}}
 auth {{cloak_server.digest}}
 
-{% if not logging %}
-log-append /dev/null
-{% endif %}
+{% if not logging %} log-append /dev/null {% endif %}
 
 server {% if cloak_server.proto=='udp' %}100.64.0.0{% else %}100.64.64.0{% endif %} 255.255.192.0
 
@@ -25,9 +23,9 @@ remote-cert-eku "TLS Web Client Authentication"
 
 keepalive 10 120
 {% if cloak_server.proto == 'udp' %}
-push "explicit-exit-notify"
+    push "explicit-exit-notify"
 {% elif cloak_server.proto == 'tcp' %}
-tcp-nodelay
+    tcp-nodelay
 {% endif %}
 
 comp-lzo no
@@ -39,9 +37,12 @@ push "rcvbuf 493216"
 push "comp-lzo no"
 
 {% if cloak_server.routes is defined %}
-{% for route in cloak_server.routes %}
-push "route {{route}}"
-{% endfor %}
+    {% for route in cloak_server.routes %}
+        {% if route.endswith('/32') %}
+            push "route {{ route|slice:'-3' }}"
+        {% elif route.endswith('/24') %}
+            push "route {{ route|slice:'-3' }} 255.255.255.0"
+    {% endfor %}
 {% else %}
-push "redirect-gateway def1"
+    push "redirect-gateway def1"
 {% endif %}
