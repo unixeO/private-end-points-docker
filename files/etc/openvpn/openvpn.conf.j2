@@ -42,6 +42,7 @@ push "comp-lzo no"
             push "route {{ route|slice:'-3' }}"
         {% elif route.endswith('/24') %}
             push "route {{ route|slice:'-3' }} 255.255.255.0"
+        {% endif %}
     {% endfor %}
 {% else %}
     push "redirect-gateway def1"
