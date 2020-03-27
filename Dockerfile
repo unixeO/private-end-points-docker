@@ -12,14 +12,14 @@ RUN echo "v0.10.1" > /container-version-id
 
 ARG repo_branch=${repo_branch:-master}
 RUN pip install --upgrade pip && \
-    pip install "git+https://github.com/encryptme/private-end-points.git@$repo_branch" jinja2 && \
+    pip install "git+https://github.com/encryptme/private-end-points.git@stage" jinja2 && \
     ln -s /usr/sbin/strongswan /usr/sbin/ipsec
 
 ARG repo_branch=${repo_branch:-master}
 ADD https://github.com/encryptme/private-end-points-docker-stats/archive/$repo_branch.zip /tmp/encryptme-metrics.zip
 RUN pip3.4 install /tmp/encryptme-metrics.zip && rm /tmp/encryptme-metrics.zip
 
-ENV DISABLE_LETSENCRYPT 0
+ENV LETSENCRYPT_DISABLED 0
 
 ARG build_time=${build_time:-x}
 ADD files/ /

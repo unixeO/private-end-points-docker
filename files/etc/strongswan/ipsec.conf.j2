@@ -16,6 +16,7 @@ conn cloak
     esp = aes256gcm128-sha256,aes256gcm128-sha384,aes256gcm128-sha512,aes256-sha256,aes256-sha384,aes256-sha512,aes256-sha1,aes128gcm128-sha256,aes128gcm128-sha384,aes128gcm128-sha512,aes128-sha256,aes128-sha384,aes128-sha512,aes128-sha1!
     compress = yes
     fragmentation = yes
+    forceencaps = yes
 
     # leftid must match both the "Remote ID" requested by the client and the
     # server certificate. To keep things simple, we just use the server FQDN.
@@ -28,9 +29,9 @@ conn cloak
     leftcert = cloak.pem
     {% endif -%}
     leftsendcert = always
-    leftsubnet = 0.0.0.0/0
+    leftsubnet = {% if cloak_server.target.ikev2[0].routes is defined %}{{cloak_server.target.ikev2[0].routes}}{% else %}0.0.0.0/0{% endif %}
 
-    # rightca is the distinguished name of the CA that signs client
+
     # certificates. This narrows the set of valid client certificates we'll
     # accept for this configuration.
     right = %any
